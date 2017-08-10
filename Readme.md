@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Марина Коверзюк](https://up.htmlacademy.ru/javascript/10/user/54699).
-* Наставник: `Неизвестно`.
+* Наставник: Без наставника.
 
 ---
 
