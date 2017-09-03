@@ -49,8 +49,7 @@
       activePin.classList.add('pin--active');
       var activePinIndex = activePin.getAttribute('data-index');
 
-      window.card.changeContent(window.data[activePinIndex]);
-      window.card.open();
+      window.showCard(window.data[activePinIndex]);
     },
     addListener: function () {
       var pinElements = pinMapList.querySelectorAll('.pin');

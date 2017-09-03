@@ -1,25 +1,6 @@
 'use strict';
 
 (function () {
-  var OFFER_TYPES = {
-    'flat': {
-      'title': 'Квартира',
-      'minPrice': 1000
-    },
-    'house': {
-      'title': 'Дом',
-      'minPrice': 5000
-    },
-    'bungalo': {
-      'title': 'Бунгало',
-      'minPrice': 0
-    },
-    'palace': {
-      'title': 'Дворец',
-      'minPrice': 10000
-    }
-  };
-
   // обработка формы
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
@@ -28,23 +9,20 @@
   var roomNumber = document.querySelector('#room_number');
   var priceRoom = document.querySelector('#price');
 
-  // подписываемся на изменение даты заезда и меняем дату выезда
-  timeIn.addEventListener('change', function (evt) {
-    timeOut.value = evt.currentTarget.value;
-  });
+  // синхронизиоуем поля выезда и заезда
 
-  // подписываемся на изменение даты выезда и меняем дату заезда
-  timeOut.addEventListener('change', function (evt) {
-    timeIn.value = evt.currentTarget.value;
-  });
+  window.synchronizeField(timeIn, timeOut, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncFields);
+  window.synchronizeField(timeOut, timeIn, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncFields);
 
-  // при изменении выбора типа жилья, меняем минимальную стоимость
-  function checkMinPrice() {
-    var minLength = OFFER_TYPES[offerTypeChoice.value].minPrice;
-    priceRoom.setAttribute('min', minLength);
+  function syncFields(element, value) {
+    element.value = value;
   }
 
-  offerTypeChoice.addEventListener('change', checkMinPrice);
+  function syncValueWithMin(element, value) {
+    element.min = value;
+  }
+
+  window.synchronizeField(offerTypeChoice, priceRoom, ['flat', 'house', 'bungalo', 'palace'], [1000, 5000, 0, 10000], syncValueWithMin);
 
   // объект для соответствия количество комнат и гостей, которые могут там разместиться
   var roomGuests = {
