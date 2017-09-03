@@ -17,7 +17,7 @@ window.pin.paste();
 window.pin.addListener();
 
 // вписываем попап с описанием объявления
-window.card.changeContent(window.data[0]);
+window.showCard(window.data[0]);
 document.querySelectorAll('.pin')[1].classList.add('pin--active');
 
 var mainPin = document.querySelector('.pin__main');

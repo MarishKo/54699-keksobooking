@@ -1,24 +1,18 @@
 'use strict';
 
 (function () {
-  var offerDialog = document.querySelector('#offer-dialog');
-
   var OFFER_TYPES = {
     'flat': {
-      'title': 'Квартира',
-      'minPrice': 1000
+      'title': 'Квартира'
     },
     'house': {
-      'title': 'Дом',
-      'minPrice': 5000
+      'title': 'Дом'
     },
     'bungalo': {
-      'title': 'Бунгало',
-      'minPrice': 0
+      'title': 'Бунгало'
     },
     'palace': {
-      'title': 'Дворец',
-      'minPrice': 10000
+      'title': 'Дворец'
     }
   };
 
@@ -46,18 +40,8 @@
 
       return dialogPanel;
     },
-    changeContent: function (adElement) {
-      var oldDialogPanel = offerDialog.querySelector('.dialog__panel');
-      var fragment = document.createDocumentFragment();
-      fragment.appendChild(this.create(adElement));
-
-      offerDialog.replaceChild(fragment, oldDialogPanel);
-    },
-    open: function () {
-      offerDialog.classList.remove('hidden');
-      document.addEventListener('keydown', this.closeOnESC);
-    },
     close: function () {
+      var offerDialog = document.querySelector('#offer-dialog');
       var activePin = document.querySelector('.pin--active');
       offerDialog.classList.add('hidden');
       activePin.classList.remove('pin--active');
