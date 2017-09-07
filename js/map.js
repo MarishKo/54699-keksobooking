@@ -11,15 +11,6 @@ dialogClose.addEventListener('click', function () {
 // закрытие попапа по esc на кнопке закрытия
 dialogClose.addEventListener('keydown', window.card.closeOnESC);
 
-// вписываем все метки объявлений
-window.pin.paste();
-// функция добавления слушания клика по пину
-window.pin.addListener();
-
-// вписываем попап с описанием объявления
-window.showCard(window.data[0]);
-document.querySelectorAll('.pin')[1].classList.add('pin--active');
-
 var mainPin = document.querySelector('.pin__main');
 
 // ограничиваем переставкивание пина за края карты
