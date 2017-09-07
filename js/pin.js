@@ -22,12 +22,16 @@
         'HEIGHT': 40,
         'CLASS_NAME': 'rounded'
       };
+      var DIV_SIZES = {
+        width: 56,
+        height: 75
+      };
       var div = document.createElement('div');
       var imgEl = document.createElement('img');
 
       div.classList.add('pin');
-      div.style.left = element.location.x - (div.offsetWidth / 2) + 'px';
-      div.style.top = element.location.y - div.offsetHeight + 'px';
+      div.style.left = element.location.x - (DIV_SIZES.width / 2) + 'px';
+      div.style.top = element.location.y - DIV_SIZES.height + 'px';
       div.setAttribute('data-index', index);
       div.tabIndex = 0;
 

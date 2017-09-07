@@ -8,6 +8,7 @@
   var offerCapacity = document.querySelector('#capacity');
   var roomNumber = document.querySelector('#room_number');
   var priceRoom = document.querySelector('#price');
+  var noticeForm = document.querySelector('.notice__form');
 
   // синхронизиоуем поля выезда и заезда
 
@@ -48,5 +49,16 @@
 
   // подписываемся на изменение кодичества комнат в селекте
   roomNumber.addEventListener('change', checkGuestsInRoom);
+
+  noticeForm.addEventListener('submit', sendForm);
+
+  function sendForm(event) {
+    event.preventDefault();
+
+    window.backend.save(new FormData(noticeForm), function () {
+      noticeForm.reset();
+      window.backend.showSuccess('Форма успешно отправлена!', 'success');
+    }, window.backend.showError);
+  }
 
 })();
