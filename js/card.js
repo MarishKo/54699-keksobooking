@@ -42,9 +42,8 @@
     },
     close: function () {
       var offerDialog = document.querySelector('#offer-dialog');
-      var activePin = document.querySelector('.pin--active');
       offerDialog.classList.add('hidden');
-      activePin.classList.remove('pin--active');
+      window.pin.removeActivePin();
       document.removeEventListener('keydown', this.closeOnESC);
     },
     closeOnESC: function (evt) {
