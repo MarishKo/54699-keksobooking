@@ -1,7 +1,33 @@
 'use strict';
 
 (function () {
+  var DIV_SIZES = {
+    width: 56,
+    height: 75
+  };
+  var IMG = {
+    'WIDTH': 40,
+    'HEIGHT': 40,
+    'CLASS_NAME': 'rounded'
+  };
   var pinMapList = document.querySelector('.tokyo__pin-map');
+
+  function filterHousingPrice(filter, filterElement, ad) {
+    if (filter && filterElement !== 'any') {
+      switch (filterElement) {
+        case 'middle':
+          filter = (+ad.offer.price >= 10000) && (+ad.offer.price <= 50000);
+          break;
+        case 'low':
+          filter = +ad.offer.price < 10000;
+          break;
+        case 'high':
+          filter = +ad.offer.price > 50000;
+          break;
+      }
+    }
+    return filter;
+  }
 
   window.pin = {
     create: function (array) {
@@ -17,28 +43,20 @@
       pinMapList.appendChild(this.create(arrayData));
     },
     createImg: function (element, index) {
-      var img = {
-        'WIDTH': 40,
-        'HEIGHT': 40,
-        'CLASS_NAME': 'rounded'
-      };
-      var DIV_SIZES = {
-        width: 56,
-        height: 75
-      };
       var div = document.createElement('div');
       var imgEl = document.createElement('img');
 
       div.classList.add('pin');
+      // учитываем,что координаты - это куда указывает метка своим острым концом. Вычитаем половину ширины метки и сдвигаем ее вверх на ее высоту
       div.style.left = element.location.x - (DIV_SIZES.width / 2) + 'px';
       div.style.top = element.location.y - DIV_SIZES.height + 'px';
       div.setAttribute('data-index', index);
       div.tabIndex = 0;
 
       imgEl.src = element.author.avatar;
-      imgEl.classList.add(img.CLASS_NAME);
-      imgEl.style.width = img.WIDTH + 'px';
-      imgEl.style.height = img.HEIGHT + 'px';
+      imgEl.classList.add(IMG.CLASS_NAME);
+      imgEl.style.width = IMG.WIDTH + 'px';
+      imgEl.style.height = IMG.HEIGHT + 'px';
 
       div.appendChild(imgEl);
 
@@ -80,25 +98,25 @@
         showenPinsList[i].parentNode.removeChild(showenPinsList[i]);
       }
     },
+    update: function (filteredArr) {
+      this.deleteAllPins();
+      this.paste(filteredArr);
+      this.addListener(filteredArr);
+
+      if (filteredArr.length > 0) {
+        window.map.updateActiveCard(filteredArr);
+      } else {
+        window.card.close();
+      }
+    },
     filter: function (filters) {
       var filterArray = window.data.filter(function (ad) {
         var filter = true;
         if (filter && filters.housingType !== 'any') {
           filter = ad.offer.type === filters.housingType;
         }
-        if (filter && filters.housingPrice !== 'any') {
-          switch (filters.housingPrice) {
-            case 'middle':
-              filter = (+ad.offer.price >= 10000) && (+ad.offer.price <= 50000);
-              break;
-            case 'low':
-              filter = +ad.offer.price < 10000;
-              break;
-            case 'high':
-              filter = +ad.offer.price > 50000;
-              break;
-          }
-        }
+
+        filter = filterHousingPrice(filter, filters.housingPrice, ad);
 
         if (filter && filters.housingRoom !== 'any') {
           filter = +filters.housingRoom === ad.offer.rooms;
@@ -119,17 +137,6 @@
       });
 
       window.util.debounce(this.update(filterArray));
-    },
-    update: function (filteredArr) {
-      this.deleteAllPins();
-      this.paste(filteredArr);
-      this.addListener(filteredArr);
-
-      if (filteredArr.length > 0) {
-        window.map.updateActiveCard(filteredArr);
-      } else {
-        window.card.close();
-      }
     }
   };
 })();
