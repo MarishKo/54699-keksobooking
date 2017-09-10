@@ -10,19 +10,21 @@
     'HEIGHT': 40,
     'CLASS_NAME': 'rounded'
   };
+  var PRICE_MAX = 50000;
+  var PRICE_MIN = 10000;
   var pinMapList = document.querySelector('.tokyo__pin-map');
 
   function filterHousingPrice(filter, filterElement, ad) {
     if (filter && filterElement !== 'any') {
       switch (filterElement) {
         case 'middle':
-          filter = (+ad.offer.price >= 10000) && (+ad.offer.price <= 50000);
+          filter = (+ad.offer.price >= PRICE_MIN) && (+ad.offer.price <= PRICE_MAX);
           break;
         case 'low':
-          filter = +ad.offer.price < 10000;
+          filter = +ad.offer.price < PRICE_MIN;
           break;
         case 'high':
-          filter = +ad.offer.price > 50000;
+          filter = +ad.offer.price > PRICE_MAX;
           break;
       }
     }

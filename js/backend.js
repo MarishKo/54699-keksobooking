@@ -5,13 +5,16 @@
   var SERVER_URL = 'https://1510.dump.academy/keksobooking';
   var XHR_TIMEOUT = 10000;
   var NOTICES_TIMEOUT = 5000;
+  var ERROR_LOAD_MESSAGE = 'Произошла ошибка при загрузке данных';
+  var ERROR_TIMEOUT_MESSAGE = 'Запрос не успел выполниться за ' + XHR_TIMEOUT + 'мс';
+  var ERROR_CONNECTING_MESSAGE = 'Произошла ошибка соединения';
 
   function loadData(onLoad, onError) {
     var loader = document.createElement('script');
     loader.src = DATA_URL + '?callback=__jsonpCallback';
 
     loader.addEventListener('error', function () {
-      onError('Произошла ошибка при загрузке данных');
+      onError(ERROR_LOAD_MESSAGE);
     });
     window.__jsonpCallback = function (data) {
       onLoad(data);
@@ -31,10 +34,10 @@
       }
     });
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      onError(ERROR_CONNECTING_MESSAGE);
     });
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      onError(ERROR_TIMEOUT_MESSAGE);
     });
 
     xhr.timeout = XHR_TIMEOUT;

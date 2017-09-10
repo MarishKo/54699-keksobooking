@@ -13,6 +13,9 @@
   var TIMEOUT_VALUES = ['12:00', '13:00', '14:00'];
   var OFFER_TYPES = ['flat', 'house', 'bungalo', 'palace'];
   var OFFER_PRICES = [1000, 5000, 0, 10000];
+  var SUCCESS_MESSAGE = 'Форма успешно отправлена!';
+  var ERROR_ROOMS_MESSAGE = 'Количество комнат не соответсвует количеству гостей';
+  var ERROR_PRICE_MESSAGE = 'Цена должна быть не меньше ';
 
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
@@ -60,11 +63,11 @@
     var offerTypeIndex = OFFER_TYPES.indexOf(offerTypeChoice.value);
     var validity = true;
     if (+priceRoom.value < OFFER_PRICES[offerTypeIndex]) {
-      window.backend.showError('Цена должна быть не меньше ' + OFFER_PRICES[offerTypeIndex]);
+      window.backend.showError(ERROR_PRICE_MESSAGE + OFFER_PRICES[offerTypeIndex]);
       validity = false;
     }
     if (ROOM_GUESTS[roomNumber.value].indexOf(+offerCapacity.value) < 0) {
-      window.backend.showError('Количество комнат не соответсвует количеству гостей');
+      window.backend.showError(ERROR_ROOMS_MESSAGE);
       validity = false;
     }
     return validity;
@@ -77,7 +80,7 @@
       window.backend.save(new FormData(noticeForm), function () {
         noticeForm.reset();
         window.map.syncMainCoord(mainPin.offsetLeft, mainPin.offsetTop);
-        window.backend.showSuccess('Форма успешно отправлена!', 'success');
+        window.backend.showSuccess(SUCCESS_MESSAGE, 'success');
       }, window.backend.showError);
     }
   }
