@@ -44,9 +44,9 @@
       var offerDialog = document.querySelector('#offer-dialog');
       offerDialog.classList.add('hidden');
       window.pin.removeActivePin();
-      document.removeEventListener('keydown', this.closeOnESC);
+      document.removeEventListener('keydown', this.closeOnEsc);
     },
-    closeOnESC: function (evt) {
+    closeOnEsc: function (evt) {
       if (evt.keyCode === window.util.ESC_KEYCODE) {
         window.card.close();
       }
