@@ -71,3 +71,10 @@ function syncMainCoord(x, y) {
 }
 
 syncMainCoord(mainPin.offsetLeft, mainPin.offsetTop);
+
+window.map = {
+  updateActiveCard: function (data) {
+    window.showCard(data[0]);
+    document.querySelectorAll('.pin:not(.pin__main)')[0].classList.add('pin--active');
+  }
+};
